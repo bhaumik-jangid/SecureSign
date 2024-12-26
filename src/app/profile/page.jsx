@@ -31,7 +31,7 @@ export default function ProfilePage() {
   return (
     <>
         <div>
-            <div>
+            <div>fbdb
                 <h1>Profile Page</h1>
                 {data === "Nothing" ? <p>NOthing</p> : <Link href={`/profile/${data}`}>{data}</Link>}
             </div>
