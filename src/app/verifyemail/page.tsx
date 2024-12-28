@@ -36,17 +36,18 @@ export default function Page() {
     }
 
     useEffect(() => {
-        setError(false);
-        const urlToken = window.location.search.split("=")[1];
-        setToken(urlToken || "");
-    }, [])
+        const urlToken = new URLSearchParams(window.location.search).get("token");
+        if (urlToken) {
+            setToken(urlToken);
+        }
+    }, []);
 
+    // Trigger email verification if token is present
     useEffect(() => {
-        setError(false);
-        if (token.length > 0) {
+        if (token) {
             verifyemail();
         }
-    }, [token])
+    }, [token]);
 
     return (
     <div>

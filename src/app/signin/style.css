@@ -78,3 +78,20 @@ label {
 .form-footer {
   text-align: center;
 }
+
+.text{
+  color: black;
+}
+
+.success-text{
+  color: green;
+}
+
+.error-text{
+  color: red;
+}
+
+.center-align{
+  text-align: center;
+  padding: 10px;
+}

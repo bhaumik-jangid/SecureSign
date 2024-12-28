@@ -2,32 +2,48 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
 import axios from 'axios';
-import Notification from '@/components/Notification/Notification';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { set } from 'mongoose';
 
 function Page() {
-  const router = useRouter();
   const [user, setUser] = useState({
     email: '',
     password: '',
     username: ''
   })
   const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState({
+    msg: '',
+    status: 404
+  });
 
   const onSignup = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await  axios.post('/api/user/signup', user)
-      setTimeout(() => router.push('/login'), 2000);
+      const res = await  axios.post('/api/user/signup', user);
+      setResponse({msg: res.data.message, status: res.status});
 
     } catch (error) {
       console.log('signup failed', error);
+      if (axios.isAxiosError(error) && error.response) {
+        // Extract error message from API response
+        setResponse({msg: error.response.data.message, status: error.response.status});
+      } else {
+        // Handle unexpected errors
+        setResponse({msg: "API or Server error", status: 500});
+        console.error('An unexpected error happened during signup', error);
+      }
     } finally {
       setLoading(false);
+      console.log(response)
     }
   }
+
+  useEffect(() => {
+    setResponse({msg: '', status: 404})
+  }, [user])
+  
 
   return (
     <div className="form-container">
@@ -79,7 +95,20 @@ function Page() {
             {loading ? 'Loading...' : 'Register'}
           </button>
         </div>
-        <Link href='/login'>Visi login page</Link>
+        {response.status === 400 && 
+          <div className="form-footer error-text center-align">
+            <p>{response.msg}</p>
+          </div>  
+        }
+        {response.status === 200 && 
+          <div className="form-footer success-text center-align">
+            <p>{response.msg} PLease verify your email to use the application</p>
+          </div>  
+        }
+
+        <div className='center-align'>
+          <Link href='/login'>Visi login page</Link>
+        </div>
       </form>
     </div>
   );
