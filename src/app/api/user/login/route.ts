@@ -14,12 +14,20 @@ export async function POST(request: NextRequest){
         const user  = await User.findOne({email})
 
         if(!user) {
-            return NextResponse.json({error: "User does not exist"}, {status: 400})
+            return NextResponse.json({message: "User does not exist"}, {status: 400})
         }
 
         const validPassword = await bcryptjs.compare(password, user.password);
         if(!validPassword) {
-            return NextResponse.json({error: "check your credentials"}, {status: 400})
+            return NextResponse.json({message: "check your credentials"}, {status: 400})
+        }
+
+        // Check if the user is verified
+        if (!user.isVerified) {
+            return NextResponse.json(
+            { message: "Please verify your email before logging in" },
+            { status: 401 }
+            );
         }
 
         const tokenData = {
@@ -30,7 +38,7 @@ export async function POST(request: NextRequest){
 
         const token = await jwt.sign(tokenData, process.env.JWT_SECRET!, {expiresIn: "1d"})
         
-        const response = NextResponse.json({message: "User logged in successfully", success: true})
+        const response = NextResponse.json({message: "User logged in successfully", success: true}, {status: 200})
         
         response.cookies.set("token", token, {httpOnly: true, expires: Date.now() + 6400000})
         

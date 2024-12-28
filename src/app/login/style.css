@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: black
 }
 
 /* Container for the form */
@@ -80,7 +81,37 @@ label {
 }
 
 .response{
-  color: red;
   text-align: center;
+  margin-top: 10px;
+  padding: 5px 0 5px 0;
+}
+
+.sucess{
+  color: green;
+}
+
+.error{
+  color: red;
+}
+
+.resend-button{
+  width: 50%;
+  padding: 12px;
+  background-color: rgb(34, 138, 34);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.resend-button:hover {
+  background-color: #10711a;
+}
+
+.resend-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
 }

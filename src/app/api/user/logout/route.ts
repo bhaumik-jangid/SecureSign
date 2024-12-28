@@ -1,5 +1,5 @@
 import {connectToMongo} from "@/dbConfig/dbConfig"
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 connectToMongo();
 

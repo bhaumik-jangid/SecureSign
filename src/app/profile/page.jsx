@@ -56,10 +56,20 @@ export default function ProfilePage() {
           }
         } catch (error) {
           console.error("Unexpected Error:", error);
-          setResponse({
-            message: "Server error",
-            status: 500,
-          });
+          
+          if (axios.isAxiosError(error) && error.response) {
+            // Extract error message from API response
+            setResponse({
+              message: error.response.data.error || "An error occurred. Please try again.",
+              status: error.response.status,
+            });
+          } else {
+            // Handle unexpected errors
+            setResponse({
+              message: "Server error",
+              status: 500,
+            });
+          }
         }
     };
 

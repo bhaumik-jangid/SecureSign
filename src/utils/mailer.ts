@@ -1,25 +1,15 @@
 import nodemailer from 'nodemailer';
-import bcryptjs from 'bcryptjs';
-import User from '@/models/userModel';
 
 interface EmailOptions {
     username: string;
     email: string;
     emailType: "VERIFY" | "CONFIRM" | "RESET";
     userID: string;
+    token?: string;
 }
 
-export const sendEmail = async ({username, email, emailType, userID }: EmailOptions) => {
+export const sendEmail = async ({username, email, emailType, token }: EmailOptions) => {
     try {
-        const hashedToken = await bcryptjs.hash(userID.toString(), 10);
-
-        if(emailType === "VERIFY"){
-            await User.findByIdAndUpdate(userID,
-                {emailVerifyToken: hashedToken, emailVerifyTokenExpire: Date.now() + 3600000},)
-        }else if(emailType === "RESET"){
-            await User.findByIdAndUpdate(userID,
-                {passwordVerifyToken: hashedToken, passwordVerifyTokenExpire: Date.now() + 3600000},)
-        }
 
         const transporter = nodemailer.createTransport({
             host: "sandbox.smtp.mailtrap.io",
@@ -103,10 +93,10 @@ export const sendEmail = async ({username, email, emailType, userID }: EmailOpti
                                         <p>Hello, ${username}</p>
                                         <p>Thank you for signing up! To complete your registration, please verify your email address by clicking the button below:</p>
                                         <p style="text-align: center;">
-                                            <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}" class="cta-button">Verify Email</a>
+                                            <a href="${process.env.DOMAIN}/verifyemail?token=${token}" class="cta-button">Verify Email</a>
                                         </p>
                                         <p>If the button doesn't work, copy and paste the following URL into your browser:</p>
-                                        <p><a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">${process.env.DOMAIN}/verifyemail?token=${hashedToken}</a></p>
+                                        <p><a href="${process.env.DOMAIN}/verifyemail?token=${token}">${process.env.DOMAIN}/verifyemail?token=${token}</a></p>
                                     </div>
                                     <div class="footer">
                                         <p>If you did not request this email, you can safely ignore it.</p>
@@ -182,10 +172,10 @@ export const sendEmail = async ({username, email, emailType, userID }: EmailOpti
                                         <p>Hello,</p>
                                         <p>Thank you for signing up! To complete your registration, please verify your email address by clicking the button below:</p>
                                         <p style="text-align: center;">
-                                            <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}" class="cta-button">Verify Email</a>
+                                            <a href="${process.env.DOMAIN}/verifyemail?token=${token}" class="cta-button">Verify Email</a>
                                         </p>
                                         <p>If the button doesn't work, copy and paste the following URL into your browser:</p>
-                                        <p><a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">${process.env.DOMAIN}/verifyemail?token=${hashedToken}</a></p>
+                                        <p><a href="${process.env.DOMAIN}/verifyemail?token=${token}">${process.env.DOMAIN}/verifyemail?token=${token}</a></p>
                                     </div>
                                     <div class="footer">
                                         <p>If you did not request this email, you can safely ignore it.</p>

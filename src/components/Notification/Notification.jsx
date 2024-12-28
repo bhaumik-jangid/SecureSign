@@ -30,7 +30,7 @@ const Notification = ({ toastertype, msg, ...toastOptions }) => {
       default:
         toast(msg, toastConfig);
     }
-  }, [toastertype, msg]);
+  }, [toastertype, msg, toastOptions]);
 
   return (
     <Toaster
