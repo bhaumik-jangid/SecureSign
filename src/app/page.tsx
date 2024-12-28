@@ -1,5 +1,6 @@
 import React from 'react';
 import './globals.css';
+
 interface HomePageProps {
   data: object;
 }
