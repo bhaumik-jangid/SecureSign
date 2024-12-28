@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import './style.css';
 import axios from 'axios';
 import Link from 'next/link';
-import { set } from 'mongoose';
 
 function Page() {
   const [user, setUser] = useState({

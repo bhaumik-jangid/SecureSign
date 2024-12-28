@@ -83,8 +83,8 @@ export default function Page() {
           <h1 className='text-blue-700'>Login Form</h1>
         </div>
         <div>
-          {(response.status === 401 || response.status === 200) && <p className='response sucess'>{response.message}</p>}
-          {(response.status === 400 || response.status === 500) && <p className='response error'>{response.message}</p>}
+          {(response.status === 401 || response.status === 200) && <p className="response sucess">{response.message}</p>}
+          {(response.status === 400 || response.status === 500) && <p className="response error">{response.message}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="email">Email</label>
@@ -131,8 +131,8 @@ export default function Page() {
               </button>
             </div>
             <div>
-              {(resendResponse.status === 401 || resendResponse.status === 200) && <p className='response sucess'>{resendResponse.message}</p>}
-              {(resendResponse.status === 400 || resendResponse.status === 500) && <p className='response error'>{resendResponse.message}</p>}
+              {(resendResponse.status === 401 || resendResponse.status === 200) && <p className="response sucess">{resendResponse.message}</p>}
+              {(resendResponse.status === 400 || resendResponse.status === 500) && <p className="response error">{resendResponse.message}</p>}
             </div>
           </>
         )}
