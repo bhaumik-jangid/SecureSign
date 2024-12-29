@@ -28,7 +28,7 @@ export default function Page() {
     setShowResend(false);
     try {
       setLoading(true);
-      const res = await  axios.post('/api/user/login', user);
+      const res = await  axios.post(`${process.env.DOMAIN}/api/user/login`, user);
       setResponse({ message: res.data.message, status: res.status });
       setTimeout(() => router.push('/profile'), 1000);
     } catch (error) {

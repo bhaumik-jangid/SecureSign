@@ -21,7 +21,7 @@ function Page() {
     setResponse({msg: '', status: 404});
     try {
       setLoading(true);
-      const res = await  axios.post('/api/user/signup', user);
+      const res = await  axios.post(`${process.env.DOMAIN}/api/user/signup`, user);
       setResponse({msg: res.data.message, status: res.status});
 
     } catch (error) {

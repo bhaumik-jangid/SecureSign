@@ -26,13 +26,14 @@ export async function POST(request: NextRequest){
         });
         
         const saveUser = newUser.save();
+        console.log("User saved successfully", saveUser)
         await axios.post(`${process.env.DOMAIN}/api/user/sendVerificationEmail`,{email, emailType: "VERIFY"});
 
 
         return NextResponse.json({message: "User created successfully", success: true, saveUser}, {status: 200})
 
     } catch (error) {
-        return NextResponse.json({error: (error as Error).message}, {status: 500})
         console.log("caught in catch block")
+        return NextResponse.json({error: (error as Error).message}, {status: 500})
     }
 }

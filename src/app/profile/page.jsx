@@ -11,7 +11,7 @@ export default function ProfilePage() {
 
     const getUserDetails = async () => {
         try {
-            const res = await axios.post('/api/user/profile');
+            const res = await axios.post(`${process.env.DOMAIN}/api/user/profile`);
             setData(res.data.data);
         } catch (error) {
             if (
@@ -28,7 +28,7 @@ export default function ProfilePage() {
 
     const logout = async () => {
         try {
-            await axios.post('/api/user/logout');
+            await axios.post(`${process.env.DOMAIN}/api/user/logout`);
             router.push('/login');
         } catch (error) {
             console.error(error.message);
@@ -44,7 +44,7 @@ export default function ProfilePage() {
       
           const id = { id: data };
       
-          const res = await axios.post("/api/user/deleteUser", id, {
+          const res = await axios.post(`${process.env.DOMAIN}/api/user/deleteUser`, id, {
             validateStatus: (status) => status < 500,
           });
       
