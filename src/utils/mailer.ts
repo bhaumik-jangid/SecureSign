@@ -11,17 +11,25 @@ interface EmailOptions {
 export const sendEmail = async ({username, email, emailType, token }: EmailOptions) => {
     try {
 
+        // const transporter = nodemailer.createTransport({
+        //     host: "smtp.gmail.com",
+        //     port: 587,
+        //     auth: {
+        //         user: process.env.MAILER_USER,
+        //         pass: process.env.MAILER_PASS,
+        //     },
+        // });
+
         const transporter = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
+            service: 'gmail',
             auth: {
                 user: process.env.MAILER_USER,
-                pass: process.env.MAILER_PASS,
-            },
+                pass: process.env.MAILER_PASS
+            }
         });
 
         const mailOptions = {
-            from: 'thirdeye4123@gmail.com', 
+            from: process.env.MAILER_USER, 
             to: email,
             subject: emailType === "VERIFY" ? "Verify your email" : "Confirmation Mail",
             text: "Hello world?",

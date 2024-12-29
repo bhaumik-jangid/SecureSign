@@ -4,6 +4,7 @@ import '@/app/login/style.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { send } from 'process';
 
 export default function Page() {
   const router = useRouter();
@@ -51,6 +52,7 @@ export default function Page() {
   const resendVerificationEmail = async () => {
     try {
       setSendLoading(true);
+
       const res = await axios.post('/api/user/sendVerificationEmail', { email: user.email, emailType: "VERIFY" });
       setResendResponse({ message: res.data.message, status: res.status });
     } catch (error) {
@@ -75,6 +77,12 @@ export default function Page() {
     setResponse({ message: '', status: 0 });
     setResendResponse({ message: '', status: 0 });
   }, [user.email, user.password]);
+
+  useEffect(() => {
+    if(sendLoading){
+      setResendResponse({ message: '', status: 0 });
+    }
+  }, [sendLoading]);
 
   return (
     <div className="form-container">
