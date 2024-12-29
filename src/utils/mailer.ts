@@ -11,15 +11,6 @@ interface EmailOptions {
 export const sendEmail = async ({username, email, emailType, token }: EmailOptions) => {
     try {
 
-        // const transporter = nodemailer.createTransport({
-        //     host: "smtp.gmail.com",
-        //     port: 587,
-        //     auth: {
-        //         user: process.env.MAILER_USER,
-        //         pass: process.env.MAILER_PASS,
-        //     },
-        // });
-
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {

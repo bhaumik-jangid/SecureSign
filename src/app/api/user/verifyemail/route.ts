@@ -32,8 +32,8 @@ export async function POST(request: NextRequest){
           }
 
         user.isVerified = true;
-        user.emailVerifyToken = undefined;
-        user.emailVerifyTokenExpire = undefined;
+        user.emailVerifyToken = null;
+        user.emailVerifyTokenExpire = null;
 
         await user.save();
         await sendEmail({username: user.username,email: user.email, emailType: "CONFIRM", userID: user._id})
