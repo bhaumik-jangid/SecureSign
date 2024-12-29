@@ -4,7 +4,6 @@ import '@/app/login/style.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { send } from 'process';
 
 export default function Page() {
   const router = useRouter();
