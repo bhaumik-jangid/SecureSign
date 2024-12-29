@@ -10,33 +10,34 @@ export async function POST(request: NextRequest){
         const reqBody = await request.json()
         const {token} = reqBody;
 
-        const user = await User.findOne(
+        const user = await User.findOneAndUpdate(
             {
                 emailVerifyToken: token,
                 emailVerifyTokenExpire: { $gt: Date.now() },
-            }
+            },
+            {
+                $set: { 
+                    isVerified: true, 
+                    emailVerifyToken: null, 
+                    emailVerifyTokenExpire: null 
+                }
+            },
+            { new: true }
         );
 
         if (!user) {
             return NextResponse.json(
-                { message: "Invalid token" }, 
+                { message: "Invalid or expired token" }, 
                 { status: 400 }
             );
         }
-
-        if (user.emailVerifyTokenExpire < Date.now()) {
-            return NextResponse.json(
-              { message: "Token expired" },
-              { status: 401 }
-            );
-          }
-
-        user.isVerified = true;
-        user.emailVerifyToken = null;
-        user.emailVerifyTokenExpire = null;
-
-        await user.save();
-        await sendEmail({username: user.username,email: user.email, emailType: "CONFIRM", userID: user._id})
+        console.log(user)
+        await sendEmail({
+            username: user.username,
+            email: user.email, 
+            emailType: "CONFIRM", 
+            userID: user._id
+        })
         return NextResponse.json({message: 'Email verified succesfully'}, {status: 201})
 
     } catch (error) {

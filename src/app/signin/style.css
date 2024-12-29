@@ -95,3 +95,25 @@ label {
   text-align: center;
   padding: 10px;
 }
+
+.padding{
+  padding: 5px;
+}
+
+.visit:hover{
+  color: blue;
+}
+
+.response{
+  text-align: center;
+  margin-top: 10px;
+  padding: 5px 0 5px 0;
+}
+
+.sucess{
+  color: green;
+}
+
+.error{
+  color: red;
+}

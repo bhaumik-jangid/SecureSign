@@ -24,7 +24,7 @@ export async function POST(request: NextRequest){
         }
 
         const response = NextResponse.json(
-            { message: "User deleted successfully", status: 200 },
+            { message: "User deleted successfully, Redirecting to login page...", status: 200 },
             { status: 200 }
         );
         response.cookies.set("token", "", {

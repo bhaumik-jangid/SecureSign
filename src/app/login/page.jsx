@@ -144,8 +144,8 @@ export default function Page() {
           </>
         )}
         {!showResend && (
-          <div className="form-footer">
-            <Link href='/signin'>Visi signin page</Link>
+          <div className="form-footer padding visit">
+            <Link href='/signin'>Visit signin page</Link>
           </div>
         )}
       </form>

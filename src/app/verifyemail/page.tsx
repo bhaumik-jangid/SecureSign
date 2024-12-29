@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 import Link from 'next/link';
+import "./style.css";
 
 export default function Page() {
 
@@ -52,31 +53,40 @@ export default function Page() {
     // Trigger email verification if token is present
 
     return (
-    <div>
-        <div>
-            <h1>Verify Email</h1>
-        </div>
-        <div>
-            <h2>
-                {token ? `${token}` : "no token recieved"}
-            </h2>
-        </div>
-        {!verified && !error ? (
-            <div>
-                <h2>Waiting for email verification...</h2>
+        <>
+            <div className="verify-email-page">
+                <div className="header">
+                    <h1>Verify Your Email</h1>
+                    <p>Please complete the email verification to proceed.</p>
+                </div>
+
+                <main className="content">
+                    {!verified && !error && (
+                        <div className="status waiting">
+                            <h2>Waiting for email verification...</h2>
+                            <p>Check your email inbox for a verification link.</p>
+                        </div>
+                    )}
+                    {verified && (
+                        <div className="status success">
+                            <h2>{statusMessage}</h2>
+                            <Link href="/login">
+                                <button className="action-btn">Go to Login</button>
+                            </Link>
+                        </div>
+                    )}
+                    {error && (
+                        <div className="status error">
+                            <h2>{statusMessage}</h2>
+                            <p>Please try again or contact support if the issue persists.</p>
+                        </div>
+                    )}
+                </main>
+
+                <footer className="footer">
+                    <p>&copy; 2024 SecureSign. All rights reserved.</p>
+                </footer>
             </div>
-        ) : null}
-        {verified && (
-            <div>
-                <h2>{statusMessage}</h2>
-                <Link href="/login">Go to login</Link>
-            </div>
-        )}
-        {error && (
-            <div>
-                <h2>{statusMessage}</h2>
-            </div>
-        )}
-    </div>
+        </>
   )
 }

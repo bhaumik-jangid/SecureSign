@@ -18,6 +18,7 @@ function Page() {
 
   const onSignup = async (e) => {
     e.preventDefault();
+    setResponse({msg: '', status: 404});
     try {
       setLoading(true);
       const res = await  axios.post('/api/user/signup', user);
@@ -49,6 +50,10 @@ function Page() {
       <form onSubmit={onSignup} className="form">
         <div className="form-header">
           <h1>Register Form</h1>
+        </div>
+        <div>
+          {(response.status === 200) && <p className="response sucess">{response.msg} PLease verify your email to use the application</p>}
+          {(response.status === 400 || response.status === 500) && <p className="response error">{response.msg}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="username">Username</label>
@@ -94,19 +99,9 @@ function Page() {
             {loading ? 'Loading...' : 'Register'}
           </button>
         </div>
-        {response.status === 400 && 
-          <div className="form-footer error-text center-align">
-            <p>{response.msg}</p>
-          </div>  
-        }
-        {response.status === 200 && 
-          <div className="form-footer success-text center-align">
-            <p>{response.msg} PLease verify your email to use the application</p>
-          </div>  
-        }
 
-        <div className='center-align'>
-          <Link href='/login'>Visi login page</Link>
+        <div className='center-align visit'>
+          <Link href='/login'>Visit login page</Link>
         </div>
       </form>
     </div>

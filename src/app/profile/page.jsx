@@ -1,18 +1,18 @@
 'use client';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import "./style.css";
 
 export default function ProfilePage() {
     const router = useRouter();
-    const [response, setResponse] = useState({ status: 999, message: "Empty" });
+    const [response, setResponse] = useState({ status: 999, message: "" });
     const [data, setData] = useState("Nothing");
 
     const getUserDetails = async () => {
         try {
             const res = await axios.post('/api/user/profile');
-            setData(res.data.data._id);
+            setData(res.data.data);
         } catch (error) {
             if (
               error.response?.status === 400
@@ -48,10 +48,8 @@ export default function ProfilePage() {
             validateStatus: (status) => status < 500,
           });
       
-          if (res.status === 404) {
-            setResponse({ message: "User not found", status: 404 });
-          } else if (res.status === 200) {
-            setResponse({ message: "User deleted successfully", status: 200 });
+          setResponse({ message: res.data.message, status: res.status });
+          if(res.status === 200) {
             setTimeout(() => router.push("/login"), 2000);
           }
         } catch (error) {
@@ -73,29 +71,63 @@ export default function ProfilePage() {
         }
     };
 
+    useEffect(() => {
+        getUserDetails();
+    }, []);
+
   return (
     <>
-        <div>
-            <div>
-                <h1>Profile Page</h1>
-                {data === "Nothing" ? <p>Nothing</p> : <Link href={`/profile/${data}`}>{data}</Link>}
-            </div>
-            <div>
-                <button onClick={logout}>Logout</button>
-            </div>
-            <div>
-                <button onClick={getUserDetails}>getUserDetails</button>
-            </div>
-            <div>
-                <button onClick={deleteUser}>Delete User</button>
-                {response.status !== 999 && (
-                    <div>
-                    <h2>{response.message}</h2>
-                    {response.status === 200 && <h3>Redirecting to login page...</h3>}
-                    </div>
-                )}
+        <div className='constainer'>
+            <div className='profile-box'>
+              <div className='profile-content-box heading'>
+                <h1>Profile</h1>
+              </div>
+              <div className='profile-content-box response'>
+                  {response.status == 200 && (
+                        <h2 className='success-text'>
+                          {response.message}
+                        </h2>
+                  )}
+                  {response.status >= 400 && (
+                        <h2 className='error-text'>
+                          {response.message}
+                        </h2>
+                  )}
+              </div>
+              <div className='profile-content-box'>
+                  <div className='detail-div'>
+                    <h3>Id: </h3>
+                    <p>{data._id}</p>
+                  </div>
+                  <div className='detail-div'>
+                    <h3>Username: </h3>
+                    <p>{data.username}</p>
+                  </div>
+                  <div className='detail-div'>
+                    <h3>Email: </h3>
+                    <p>{data.email}</p>
+                  </div>
+                  <div className='detail-div'>
+                    <h3>Email Verified: </h3>
+                    <p>{data.isVerified ? "Yes" : "No"}</p>
+                  </div>
+                  <div className='detail-div'>
+                    <h3>Email Verify Token: </h3>
+                    <p>{data.emailVerifyToken}</p>
+                  </div>
+                  <div className='detail-div'>
+                    <h3>Email Verify Token Expire: </h3>
+                    <p>{data.emailVerifyTokenExpire}</p>
+                  </div>
+              </div>
+              <div className='profile-content-box btn-style'>
+                  <button onClick={logout} className='btn'>Logout</button>
+                  <button onClick={getUserDetails} className='btn'>getUserDetails</button>
+                  <button onClick={deleteUser} className='btn'>Delete User</button>
+              </div>
             </div>
         </div>
+
     </>
   )
 }
